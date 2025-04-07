@@ -1,10 +1,8 @@
 import sqlite3
 
-# Connect to the database (or create if it doesn't exist)
 conn = sqlite3.connect("students.db")
 cursor = conn.cursor()
 
-# Create the table if it doesn’t exist
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS students (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -15,13 +13,11 @@ CREATE TABLE IF NOT EXISTS students (
 """)
 conn.commit()
 
-# Function to add a student
 def add_student(name, age, grade):
     cursor.execute("INSERT INTO students (name, age, grade) VALUES (?, ?, ?)", (name, age, grade))
     conn.commit()
     print(f"Student {name} added successfully!")
 
-# Function to view all students
 def view_students():
     cursor.execute("SELECT * FROM students")
     records = cursor.fetchall()
@@ -33,13 +29,11 @@ def view_students():
     else:
         print("No student records found.")
 
-# Function to delete a student
 def delete_student(student_id):
     cursor.execute("DELETE FROM students WHERE id=?", (student_id,))
     conn.commit()
     print(f"Student with ID {student_id} deleted.")
 
-# Menu for user input
 while True:
     print("\nOptions: 1. Add Student  2. View Students  3. Delete Student  4. Exit")
     choice = input("Choose an option: ")
